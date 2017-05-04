@@ -10,10 +10,7 @@ export default Service.extend({
   init() {
     this._super(...arguments);
     const appConfig = Ember.getOwner(this).application.resolveRegistration('config:environment');
-    const hoodie = new Hoodie({
-      url : appConfig.hoodie.client.url,
-      PouchDB : PouchDB
-    });
+    const hoodie = new Hoodie(appConfig.hoodie.client);
     set(this, 'hoodie', hoodie);
     // for debug only
     window.hoodie = hoodie;

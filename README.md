@@ -65,7 +65,8 @@ var PouchDB = require('pouchdb');
 if (environment === 'development') {
   ENV.hoodie = {
     client: {
-      url: 'http://localhost:4200'
+      url: 'http://localhost:4200',
+      PouchDB: PouchDB
     },
     server: {
       PouchDB: PouchDB,
@@ -77,19 +78,26 @@ if (environment === 'development') {
 }
 ```
 
-The `ENV.hoodie.server` property is the exact hoodie-server config that will be passed as hapi's `register` [options](https://github.com/hoodiehq/hoodie-server#example). So you can pass whatever options you need here. For example, to make hoodie act as a proxy to a couchdb, you can use:
+The `ENV.hoodie.server` property is the exact hoodie-server config that will be passed as hapi's `register` [options](https://github.com/hoodiehq/hoodie-server#example).
+
+The `ENV.hoodie.client` property, as well, is passed as-is to the [hoodie-client contstructor](https://github.com/hoodiehq/hoodie-client#constructor).
+
+So you can pass whatever options you need here.
+
+For example, to make hoodie-server act as a proxy to a couchdb, you can use:
 
 ```js
   ENV.hoodie = {
     client: {
-      url: 'http://localhost:4200'
+      url: 'http://localhost:4200',
+      PouchDB: PouchDB
     },
     server: {
       PouchDB: PouchDB.defaults({
         prefix: 'http://localhost:5984',
         auth: {
           username: 'admin',
-          password: 'admin'
+          password: 'secret'
         }
       }),
       port: 4201,
@@ -97,6 +105,7 @@ The `ENV.hoodie.server` property is the exact hoodie-server config that will be 
     }
   };
 ```
+
 
 Now, you can just use the store as you are used to! Whabam! Please help
 me fill out these docs a little better.
